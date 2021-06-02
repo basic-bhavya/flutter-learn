@@ -1,6 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() {
   runApp(MaterialApp(
@@ -18,10 +18,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController _nameController = TextEditingController();
   var myText = "Change This";
+  var url = "https://jsonplaceholder.typicode.com/photos";
+  var data;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    getData();
+  }
+
+  getData() async {
+    var res = await http.get(Uri.parse(url));
+    data = jsonDecode(res.body);
+    setState(() {});
   }
 
   @override
@@ -30,29 +39,21 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(title: Text("Something")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Card(
-            child: Column(
-              children: [
-                Image.asset("assets/cboard.jpg", fit: BoxFit.cover),
-                SizedBox(height: 20),
-                Text(
-                  myText,
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: TextField(
-                      controller: _nameController,
-                      decoration: InputDecoration(
-                          hintText: "Enter something good",
-                          labelText: "Good label",
-                          border: OutlineInputBorder())),
-                )
-              ],
-            ),
-          ),
-        ),
+        child: data != null
+            ? ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                      title: Text(data[index]["title"]),
+                      subtitle: Text("${data[index]["id"]}"),
+                      leading: Image.network(data[index]["url"]),
+                    ),
+                  );
+                },
+              )
+            : Center(child: CircularProgressIndicator()),
       ),
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       floatingActionButton: FloatingActionButton(
