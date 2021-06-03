@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hey_look/bg_image.dart';
 import 'package:hey_look/main.dart';
+import 'package:hey_look/utils/constants.dart';
 
 class LoginPage extends StatefulWidget {
   final usernameController = TextEditingController();
@@ -49,7 +50,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/home');
+                          Navigator.pushReplacementNamed(context, '/home');
+                          Constants.prefs?.setBool("loggedIn", true);
                           // Navigator.push(
                           //     context,
                           //     MaterialPageRoute(

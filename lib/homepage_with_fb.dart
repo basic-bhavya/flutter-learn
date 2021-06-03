@@ -1,35 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:hey_look/login_page.dart';
+import 'dart:convert';
 import 'package:hey_look/utils/constants.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'utils/constants.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
 
-Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  Constants.prefs = await SharedPreferences.getInstance();
-
-  runApp(MaterialApp(
-      title: "Hey Look",
-      home: Constants.prefs?.getBool("loggedIn") == true
-          ? HomePage()
-          : LoginPage(),
-      theme: ThemeData(primarySwatch: Colors.blue),
-      routes: {
-        '/login': (context) => LoginPage(),
-        '/home': (context) => HomePage()
-      }));
-}
-
-class HomePage extends StatefulWidget {
+class HomePageFB extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePageFB> {
   TextEditingController _nameController = TextEditingController();
   var myText = "Change This";
   var url = "https://jsonplaceholder.typicode.com/photos";
