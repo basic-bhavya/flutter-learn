@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hey_look/login_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 void main() {
   runApp(MaterialApp(
-    title: "Hey Look",
-    home: HomePage(),
-    theme: ThemeData(primarySwatch: Colors.blueGrey),
-  ));
+      title: "Hey Look",
+      home: LoginPage(),
+      theme: ThemeData(primarySwatch: Colors.blue),
+      routes: {
+        '/login': (context) => LoginPage(),
+        '/home': (context) => HomePage()
+      }));
 }
 
 class HomePage extends StatefulWidget {
