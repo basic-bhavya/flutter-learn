@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'question.dart';
+import 'answer.dart';
 
 // import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,9 +35,9 @@ class _QuizState extends State<Quiz> {
             ),
             body: Column(
               children: [
-                Text(questions[questionIndex]),
-                ElevatedButton(
-                    onPressed: answerQuestion, child: Text("Answer 1"))
+                Question(questions[questionIndex]),
+                Answer()
+                // onPressed: answerQuestion, child: Text("Answer 1"))
               ],
             )));
   }
