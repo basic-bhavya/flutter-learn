@@ -14,16 +14,29 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
-  var questionIndex = 0;
+  var _questionIndex = 0;
 
-  var questions = ['What is food?', 'What is life?', 'What is this?'];
+  var questions = [
+    {
+      'questionText': 'What is food?',
+      'answers': ['fud', 'fooood', 'fodd']
+    },
+    {
+      'questionText': 'What is life?',
+      'answers': ['42', '21', '9', '0']
+    },
+    {
+      'questionText': 'What is this?',
+      'answers': ['A smoothie', 'an app', 'spartan']
+    }
+  ];
 
   @override
   Widget build(BuildContext context) {
-    void answerQuestion() {
+    void _answerQuestion() {
       print("answered");
       setState(() {
-        questionIndex = questionIndex + 1;
+        _questionIndex = _questionIndex + 1;
       });
     }
 
@@ -35,8 +48,11 @@ class _QuizState extends State<Quiz> {
             ),
             body: Column(
               children: [
-                Question(questions[questionIndex]),
-                Answer()
+                Question((questions[_questionIndex]['questionText'] as String)),
+                ...(questions[_questionIndex]['answers'] as List<String>)
+                    .map((ans) {
+                  return Answer(_answerQuestion, ans);
+                }).toList()
                 // onPressed: answerQuestion, child: Text("Answer 1"))
               ],
             )));
