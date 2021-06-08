@@ -3,9 +3,40 @@ import 'package:flutter/material.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+  runApp(Quiz());
+}
 
-  // Constants.prefs = await SharedPreferences.getInstance();
+class Quiz extends StatefulWidget {
+  @override
+  _QuizState createState() => _QuizState();
+}
 
-  runApp(MaterialApp(title: "Hey Look", home: Text("Hello guys!")));
+class _QuizState extends State<Quiz> {
+  var questionIndex = 0;
+
+  var questions = ['What is food?', 'What is life?', 'What is this?'];
+
+  @override
+  Widget build(BuildContext context) {
+    void answerQuestion() {
+      print("answered");
+      setState(() {
+        questionIndex = questionIndex + 1;
+      });
+    }
+
+    return MaterialApp(
+        title: "Hey Look",
+        home: Scaffold(
+            appBar: AppBar(
+              title: Text("My App"),
+            ),
+            body: Column(
+              children: [
+                Text(questions[questionIndex]),
+                ElevatedButton(
+                    onPressed: answerQuestion, child: Text("Answer 1"))
+              ],
+            )));
+  }
 }
