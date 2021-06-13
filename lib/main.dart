@@ -16,28 +16,28 @@ class Quiz extends StatefulWidget {
 class _QuizState extends State<Quiz> {
   var _questionIndex = 0;
 
-  var questions = [
-    {
-      'questionText': 'What is food?',
-      'answers': ['fud', 'fooood', 'fodd']
-    },
-    {
-      'questionText': 'What is life?',
-      'answers': ['42', '21', '9', '0']
-    },
-    {
-      'questionText': 'What is this?',
-      'answers': ['A smoothie', 'an app', 'spartan']
-    }
-  ];
-
   @override
   Widget build(BuildContext context) {
+    const questions = [
+      {
+        'questionText': 'What is food?',
+        'answers': ['fud', 'fooood', 'fodd']
+      },
+      {
+        'questionText': 'What is life?',
+        'answers': ['42', '21', '9', '0']
+      },
+      {
+        'questionText': 'What is this?',
+        'answers': ['A smoothie', 'an app', 'spartan']
+      }
+    ];
+
     void _answerQuestion() {
-      print("answered");
-      setState(() {
-        _questionIndex = _questionIndex + 1;
-      });
+      if (_questionIndex < questions.length)
+        setState(() {
+          _questionIndex = _questionIndex + 1;
+        });
     }
 
     return MaterialApp(
@@ -46,15 +46,20 @@ class _QuizState extends State<Quiz> {
             appBar: AppBar(
               title: Text("My App"),
             ),
-            body: Column(
-              children: [
-                Question((questions[_questionIndex]['questionText'] as String)),
-                ...(questions[_questionIndex]['answers'] as List<String>)
-                    .map((ans) {
-                  return Answer(_answerQuestion, ans);
-                }).toList()
-                // onPressed: answerQuestion, child: Text("Answer 1"))
-              ],
-            )));
+            body: _questionIndex < questions.length
+                ? Column(
+                    children: [
+                      Question((questions[_questionIndex]['questionText']
+                          as String)),
+                      ...(questions[_questionIndex]['answers'] as List<String>)
+                          .map((ans) {
+                        return Answer(_answerQuestion, ans);
+                      }).toList()
+                      // onPressed: answerQuestion, child: Text("Answer 1"))
+                    ],
+                  )
+                : Center(
+                    child: Text("You did it!"),
+                  )));
   }
 }
