@@ -32,23 +32,44 @@ class ExpensePlannerApp extends StatelessWidget {
         title: Text("Expense Planner"),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Card(
             child: Text("Chart"),
           ),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: transactions
                 .map((tx) => Card(
                       child: Row(
                         children: [
                           Container(
-                            child: Text(tx.price.toString()),
+                            width: 100,
+                            padding: EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.red.shade800, width: 2)),
+                            margin: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 15),
+                            child: Text(tx.price.toString(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.red.shade800,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20)),
                           ),
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(tx.title as String),
-                              Text(tx.date.toString())
+                              Text(
+                                tx.title as String,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
+                              ),
+                              Text(
+                                tx.date.toString(),
+                                style: TextStyle(color: Colors.grey),
+                              )
                             ],
                           )
                         ],
