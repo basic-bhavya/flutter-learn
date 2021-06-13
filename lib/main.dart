@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:hey_look/transaction.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,9 +16,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter App',
       home: ExpensePlannerApp(),
+      color: Colors.red,
     );
   }
 }
+
+final titleController = TextEditingController();
+final priceController = TextEditingController();
 
 class ExpensePlannerApp extends StatelessWidget {
   final List<Transaction> transactions = [
@@ -33,10 +40,35 @@ class ExpensePlannerApp extends StatelessWidget {
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Card(
             child: Text("Chart"),
+          ),
+          Card(
+            child: Container(
+              padding: EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  TextField(
+                      decoration: InputDecoration(labelText: "Title"),
+                      controller: titleController),
+                  TextField(
+                    decoration: InputDecoration(labelText: "Price"),
+                    controller: priceController,
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Add Transaction",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: TextButton.styleFrom(backgroundColor: Colors.red),
+                  )
+                ],
+              ),
+            ),
           ),
           Column(
             children: transactions
@@ -44,14 +76,13 @@ class ExpensePlannerApp extends StatelessWidget {
                       child: Row(
                         children: [
                           Container(
-                            width: 100,
                             padding: EdgeInsets.all(12),
                             decoration: BoxDecoration(
                                 border: Border.all(
                                     color: Colors.red.shade800, width: 2)),
                             margin: EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 15),
-                            child: Text(tx.price.toString(),
+                            child: Text('\₹${tx.price}',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.red.shade800,
@@ -67,7 +98,7 @@ class ExpensePlannerApp extends StatelessWidget {
                                     fontWeight: FontWeight.bold, fontSize: 18),
                               ),
                               Text(
-                                tx.date.toString(),
+                                DateFormat.yMMMEd().format(tx.date as DateTime),
                                 style: TextStyle(color: Colors.grey),
                               )
                             ],
