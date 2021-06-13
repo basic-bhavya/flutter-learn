@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
-import 'question.dart';
-import 'answer.dart';
+
+import 'quiz.dart';
+import 'result.dart';
 
 // import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  runApp(Quiz());
+  runApp(QuizApp());
 }
 
-class Quiz extends StatefulWidget {
+class QuizApp extends StatefulWidget {
   @override
   _QuizState createState() => _QuizState();
 }
 
-class _QuizState extends State<Quiz> {
+class _QuizState extends State<QuizApp> {
   var _questionIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    const questions = [
+    const _questions = [
       {
         'questionText': 'What is food?',
         'answers': ['fud', 'fooood', 'fodd']
@@ -34,7 +35,7 @@ class _QuizState extends State<Quiz> {
     ];
 
     void _answerQuestion() {
-      if (_questionIndex < questions.length)
+      if (_questionIndex < _questions.length)
         setState(() {
           _questionIndex = _questionIndex + 1;
         });
@@ -46,20 +47,11 @@ class _QuizState extends State<Quiz> {
             appBar: AppBar(
               title: Text("My App"),
             ),
-            body: _questionIndex < questions.length
-                ? Column(
-                    children: [
-                      Question((questions[_questionIndex]['questionText']
-                          as String)),
-                      ...(questions[_questionIndex]['answers'] as List<String>)
-                          .map((ans) {
-                        return Answer(_answerQuestion, ans);
-                      }).toList()
-                      // onPressed: answerQuestion, child: Text("Answer 1"))
-                    ],
-                  )
-                : Center(
-                    child: Text("You did it!"),
-                  )));
+            body: _questionIndex < _questions.length
+                ? Quiz(
+                    answerQuestion: _answerQuestion,
+                    questions: _questions,
+                    questionIndex: _questionIndex)
+                : Result()));
   }
 }
