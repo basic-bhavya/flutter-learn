@@ -1,8 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:hey_look/transaction.dart';
-import 'package:intl/intl.dart';
+import 'package:hey_look/models/transaction.dart';
+import 'package:hey_look/widgets/new_transaction.dart';
+import 'package:hey_look/widgets/user_transactions.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,16 +20,41 @@ class MyApp extends StatelessWidget {
   }
 }
 
-final titleController = TextEditingController();
-final priceController = TextEditingController();
+// final titleController = TextEditingController();
+// final priceController = TextEditingController();
 
-class ExpensePlannerApp extends StatelessWidget {
-  final List<Transaction> transactions = [
+class ExpensePlannerApp extends StatefulWidget {
+  @override
+  _ExpensePlannerAppState createState() => _ExpensePlannerAppState();
+}
+
+class _ExpensePlannerAppState extends State<ExpensePlannerApp> {
+  final List<Transaction> _transactions = [
     Transaction(
         id: 't1', title: "New Shoes", price: 10000, date: DateTime.now()),
     Transaction(
         id: 't2', title: "Weekly Groceries", price: 3000, date: DateTime.now())
   ];
+
+  void _addNewTransaction(String title, int price) {
+    final newTx = Transaction(
+        id: DateTime.now().toString(),
+        title: title,
+        price: price,
+        date: DateTime.now());
+
+    setState(() {
+      _transactions.add(newTx);
+    });
+  }
+
+  void startAddNewTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+        context: ctx,
+        builder: (_) {
+          return NewTransaction(_addNewTransaction);
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,77 +62,21 @@ class ExpensePlannerApp extends StatelessWidget {
       appBar: AppBar(
         title: Text("Expense Planner"),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Card(
-            child: Text("Chart"),
-          ),
-          Card(
-            child: Container(
-              padding: EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  TextField(
-                      decoration: InputDecoration(labelText: "Title"),
-                      controller: titleController),
-                  TextField(
-                    decoration: InputDecoration(labelText: "Price"),
-                    controller: priceController,
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Add Transaction",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: TextButton.styleFrom(backgroundColor: Colors.red),
-                  )
-                ],
-              ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Card(
+              child: Text("Chart"),
             ),
-          ),
-          Column(
-            children: transactions
-                .map((tx) => Card(
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.red.shade800, width: 2)),
-                            margin: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 15),
-                            child: Text('\₹${tx.price}',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.red.shade800,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20)),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                tx.title as String,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
-                              ),
-                              Text(
-                                DateFormat.yMMMEd().format(tx.date as DateTime),
-                                style: TextStyle(color: Colors.grey),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    ))
-                .toList(),
-          )
-        ],
+            UserTransactions()
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {},
       ),
     );
   }
