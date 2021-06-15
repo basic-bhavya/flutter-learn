@@ -19,13 +19,14 @@ class TransactionList extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.red.shade800, width: 2)),
+                      border: Border.all(
+                          color: Theme.of(context).primaryColorDark, width: 2)),
                   margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   child: Text(
                       '\₹${transactions[index].price?.toStringAsPrecision(5)}',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: Colors.red.shade800,
+                          color: Theme.of(context).primaryColorDark,
                           fontWeight: FontWeight.bold,
                           fontSize: 20)),
                 ),

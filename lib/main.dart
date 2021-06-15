@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hey_look/models/transaction.dart';
 import 'package:hey_look/widgets/new_transaction.dart';
-import 'package:hey_look/widgets/user_transactions.dart';
+import 'package:hey_look/widgets/transactions_list.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,8 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter App',
+      theme: ThemeData(primarySwatch: Colors.amber, accentColor: Colors.red),
       home: ExpensePlannerApp(),
-      color: Colors.red,
     );
   }
 }
@@ -48,7 +48,7 @@ class _ExpensePlannerAppState extends State<ExpensePlannerApp> {
     });
   }
 
-  void startAddNewTransaction(BuildContext ctx) {
+  void _startAddNewTransaction(BuildContext ctx) {
     showModalBottomSheet(
         context: ctx,
         builder: (_) {
@@ -70,13 +70,13 @@ class _ExpensePlannerAppState extends State<ExpensePlannerApp> {
             Card(
               child: Text("Chart"),
             ),
-            UserTransactions()
+            TransactionList(_transactions)
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () => _startAddNewTransaction(context),
       ),
     );
   }
